@@ -53,6 +53,21 @@ def predict_sound(AUDIO, SAMPLE_RATE, plot = True):
         mfccs_scaled_features = mfccs_scaled_features[:,:,np.newaxis]
 
         predictions = loaded_model[0].predict(mfccs_scaled_features, batch_size=32)
-        print(predictions)
+
+        if plot:
+            plt.figure(figsize=(len(splitted_audio_data), 5))
+            plt.barh(loaded_model[1], predictions[0])
+            plt.tight_layout()
+            plt.show()
+
+        predictions = predictions.argmax(axis = 1)
+        predictions = predictions.astype(int).flatten()
+        predictions = loaded_model[1][predictions[0]]
+        results.append(predictions)
+
+    count_results = [[results.count(x), x] for x in set(results)]
+
+    print(max(count_results))
+    return max(count_results)
 
 predict_sound('triste.wav', loaded_model[2], plot=True)
