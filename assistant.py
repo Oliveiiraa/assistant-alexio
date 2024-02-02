@@ -41,6 +41,29 @@ def load_model_by_name(model_type):
 model_type = 'EMOÇÃO'
 loaded_model = load_model_by_name(model_type)
 
+def speak(audio):
+    engine = pyttsx3.init()
+    engine.setProperty('rate', 200)
+    engine.setProperty('volume', 1)
+    engine.say(audio)
+    engine.runAndWait()
+
+def listen_microphone():
+    microphone = sr.Recognizer()
+    with sr.Microphone() as source:
+        microphone.adjust_for_ambient_noise(source, duration=0.8)
+        print("Ouvindo:")
+        audio = microphone.listen(source)
+        with open('recordings/speech.wav', 'wb') as f:
+            f.write(audio.get_wav_data())
+    try:
+        frase = microphone.recognize_google(audio, language='pt-BR')
+        print(frase)
+    except sr.UnknownValueError:
+        frase = ''
+        print("Não entendi")
+    return frase
+
 def predict_sound(AUDIO, SAMPLE_RATE, plot = True):
     results = []
     wav_data, sample_rate = librosa.load(AUDIO, sr=SAMPLE_RATE)
@@ -67,7 +90,25 @@ def predict_sound(AUDIO, SAMPLE_RATE, plot = True):
 
     count_results = [[results.count(x), x] for x in set(results)]
 
-    print(max(count_results))
     return max(count_results)
 
-predict_sound('triste.wav', loaded_model[2], plot=True)
+# emotion = predict_sound('triste.wav', loaded_model[2], plot=False)
+
+def play_music_youtube(emotion):
+    play=False
+    if emotion == 'triste' or emotion == 'medo':
+        speak('Você está triste')
+        play=True
+    if emotion == 'nervosa' or emotion == 'surpreso':
+        speak('Você está nervoso')
+        play=True
+    return play
+
+# play_music_youtube(emotion[1])
+
+def validate_models():
+    audio_source = './recordings/speech.wav'
+    predictions = predict_sound(audio_source, loaded_model[2], plot=True)
+    print(predictions)
+listen_microphone()
+validate_models()
