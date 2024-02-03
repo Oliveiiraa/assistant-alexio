@@ -1,4 +1,4 @@
-functions = ['O que você pode fazer?', 'O que você faz?', 'Funcionalidades', 'O que você sabe fazer?']
+functions = ['o que você pode fazer', 'o que você faz', 'uncionalidades', 'o que você sabe fazer']
 notes = ['anotacoes', 'anotar', 'lembrete', 'nova anotação', 'anote novamente', 'anotar novamente', 'me lembre', 'nota']
 help = ['Pesquisar', 'Ajuda', 'Preciso de ajuda', 'Pode me ajudar', 'Estou com uma dúvida', 'Tenho uma dúvida']
 hours = ['Que horas são', 'Hora']

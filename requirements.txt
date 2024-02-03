@@ -1,0 +1,7 @@
+pygame
+tensorflow
+pyttsx3==2.90
+seaborn
+matplotlib
+SpeechRecognition==3.8.1
+librosa==0.8.1
